@@ -1,5 +1,6 @@
 import { PrismaClient } from "@repo/db";
 import { NextRequest } from "next/server";
+import { BlogVal } from "@repo/validations";
 
 export async function GET(req: NextRequest) {
   const client = new PrismaClient();
@@ -18,6 +19,15 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   const client = new PrismaClient();
   const body = await req.json();
+
+  const parsedInput = BlogVal.safeParse(body);
+  if (!parsedInput.success) {
+    return new Response(JSON.stringify({ message: parsedInput.error }), {
+      status: 401,
+    });
+  }
+
+  // console.log("parsedInput = ", parsedInput);
 
   const { title, date, image, desc } = body;
 

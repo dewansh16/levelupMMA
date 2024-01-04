@@ -21,8 +21,8 @@ model Blog {
 
 model Trainer {
   id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  Name      String
-  Psition   String
+  name      String
+  position   String
   createdAt DateTime   @default(now())
   image     String
   desc      String
